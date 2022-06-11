@@ -14,9 +14,7 @@ buttonSearch.on('click', function() {
 
 main.on('click', function(event) {
     var btnClicked = $(event.target);
-    console.log(btnClicked);
     if (btnClicked.hasClass('history-button')) {
-        console.log(btnClicked.text());
         citySearch.val(btnClicked.text());
         getWeather(citySearch.val());
     }
@@ -37,7 +35,6 @@ function getWeather(cityInput) {
                     })
                     .then(function (newData) {
                         var m = moment();
-                        console.log(newData);
                         content.addClass('border')
                         weatherPane.empty();
                         var wpTitle = $('<div>');
@@ -84,11 +81,24 @@ function getWeather(cityInput) {
                             history.attr('id', 'history');
                             main.append(history);
                         }
-                        var newButton = $('<button>');
-                        newButton.attr('class', 'btn btn-block btn-secondary py-2 history-button');
-                        newButton.text(data.name);
-                        history.prepend(newButton);
-                        
+                        var repeatSearch = false;
+                        history.each(function() {
+                            if($(this).text().match(data.name)){
+                                repeatSearch = true;
+                                return false;
+                            }
+                        })
+
+                        if (!repeatSearch) {
+                            var newButton = $('<button>');
+                            newButton.attr('class', 'btn btn-block btn-secondary py-2 history-button');
+                            newButton.text(data.name);
+                            history.prepend(newButton);
+                        } else {
+                            var prevSearch = $(`#history button:contains(${data.name})`);
+                            history.remove(prevSearch);
+                            history.prepend(prevSearch);
+                        }
 
                         var forecast = $('#forecast');
                         if (forecast.length) {
