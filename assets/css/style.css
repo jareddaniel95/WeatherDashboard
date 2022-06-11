@@ -2,7 +2,11 @@
     width: 67%;
 }
 
-.col-centered{
+.col-centered {
     margin: 0 auto;
     float: none;
 }
+
+/* #content {
+    background-color: aquamarine;
+} */
