@@ -12,6 +12,16 @@ buttonSearch.on('click', function() {
     var result = getWeather(citySearch.val());
 });
 
+main.on('click', function(event) {
+    var btnClicked = $(event.target);
+    console.log(btnClicked);
+    if (btnClicked.hasClass('history-button')) {
+        console.log(btnClicked.text());
+        citySearch.val(btnClicked.text());
+        getWeather(citySearch.val());
+    }
+});
+
 function getWeather(cityInput) {
     var query = `https://api.openweathermap.org/data/2.5/weather?q=${cityInput}&appid=${APIkey}&units=imperial`;
     fetch(query)
@@ -66,21 +76,34 @@ function getWeather(cityInput) {
                         wpUVI.html(`<h5>UV Index: ${uvi}</h5>`);
                         weatherPane.append(wpUVI);
 
+                        var history = $('#history');
+                        if (history.length) {
+                        } else {
+                            history = $('<div>');
+                            history.attr('class', 'w-25 p-2');
+                            history.attr('id', 'history');
+                            main.append(history);
+                        }
+                        var newButton = $('<button>');
+                        newButton.attr('class', 'btn btn-block btn-secondary py-2 history-button');
+                        newButton.text(data.name);
+                        history.prepend(newButton);
+                        
 
-                        // var forecast = $('<div>');
                         var forecast = $('#forecast');
                         if (forecast.length) {
                             forecast.empty();
                         } else {
                             forecast = $('<div>');
+                            forecast.attr('class', 'p-2 w-67');
+                            forecast.attr('id', 'forecast');
                         }
 
-                        forecast.attr('class', 'p-2 w-67');
-                        forecast.attr('id', 'forecast');
+                        
                         var forecastTable = $('<table>');
                         forecastTable.attr('class', 'w-100 table table-bordered table-dark');
                         var forecastTableRow = $('<tr>');
-                        // forcastTable.append(forcastTableRow);
+
                         var day1 = $('<td>');
                         var day2 = $('<td>');
                         var day3 = $('<td>');
@@ -109,13 +132,7 @@ function getWeather(cityInput) {
                             humid.append('Humidity: ' + newData.daily[i].humidity + '%');
                             days[i].append(humid);
 
-                            // days[i].text(newData.daily[i].temp.max);
-
-                            // var forcastTableCell = $('<td>');
-                            // forcastTableCell.append(days[i]);
-
                             forecastTableRow.append(days[i]);
-                            // forecast.append(days[i]);
                         }
                         forecastTable.append(forecastTableRow);
                         forecast.append(forecastTable);
@@ -127,15 +144,3 @@ function getWeather(cityInput) {
     );
 }
 
-// function getExtraData(lat, lon) {
-//     var query = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely&appid=${APIkey}&units=imperial`;
-//     fetch(query)
-//         .then(function (response) {
-//             return response.json();
-//         })
-//         .then(function (data) {
-//             console.log(data);
-//             return data;
-//         }
-//     );
-// }
