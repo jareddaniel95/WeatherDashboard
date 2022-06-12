@@ -35,7 +35,7 @@ function getWeather(cityInput) {
                     })
                     .then(function (newData) {
                         var m = moment();
-                        content.addClass('border')
+                        content.addClass('border-left border-right border-top')
                         weatherPane.empty();
                         var wpTitle = $('<div>');
                         wpTitle.attr('class', 'bg-primary px-3 my-2 text-white');
@@ -105,13 +105,13 @@ function getWeather(cityInput) {
                             forecast.empty();
                         } else {
                             forecast = $('<div>');
-                            forecast.attr('class', 'p-2 w-67');
+                            forecast.attr('class', 'p-2 w-67 border-left border-right border-bottom');
                             forecast.attr('id', 'forecast');
                         }
 
                         
                         var forecastTable = $('<table>');
-                        forecastTable.attr('class', 'w-100 table table-bordered table-dark');
+                        forecastTable.attr('class', 'w-100 table table-bordered table-dark mb-2');
                         var forecastTableRow = $('<tr>');
 
                         var day1 = $('<td>');

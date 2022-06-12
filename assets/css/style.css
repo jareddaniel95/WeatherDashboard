@@ -7,6 +7,7 @@
     float: none;
 }
 
-/* #content {
-    background-color: aquamarine;
-} */
+#history {
+    margin-right: auto;
+    margin-left: auto;
+}
